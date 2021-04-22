@@ -5,12 +5,6 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import '../App.css';
 
-//TODO: Create load indicator on button -> Done
-//TODO: Add Background, Logo, META Desc -> Done
-//TODO: Style error messages -> Done
-//TODO: Add success notification -> Done
-//TODO: Code cleanup
-
 const RegistrationForm = () => {
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');

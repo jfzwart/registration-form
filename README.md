@@ -1,8 +1,8 @@
-Demo of the shopping cart is available on: ''
+Demo van het formulier is te vinden op: 'https://amazing-nobel-d202a6.netlify.app/'
 
-Project runs in [http://localhost:3000] after running 'npm start' in your terminal
+Je kan het project lokaal draaien op [http://localhost:3000] nadat je het repository hebt gedownload en 'npm start' invoert in je terminal.
 
-Het formulier is gebouwd aan de hand van de onderstaande opdracht:
+Het formulier is gebouwd aan de hand van de volgende opdracht:
 
 Inleiding
 
