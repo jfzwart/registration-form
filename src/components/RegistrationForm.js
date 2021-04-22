@@ -76,7 +76,8 @@ const RegistrationForm = () => {
                 }
             })
             setLoading(false)
-            NotificationManager.success('You hebt je inteschreven!', 'Succes!!', 2000); // creates an in-browser notification on succes
+            NotificationManager.success('You hebt je inteschreven!', 'Succes!!', 2000);
+            return data // creates an in-browser notification on succes
         } catch(error) {
             console.log("error", error);
             NotificationManager.error('Fout bij de inschrijving!', 'Probeer opnieuw!'); // creates an error notification on failure
