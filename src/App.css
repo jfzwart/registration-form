@@ -1,5 +1,7 @@
 .App {
+  display: grid;
   text-align: center;
+  justify-content: space-around;
   height: 100vh;
   background: url('./images/background.png') no-repeat center center;
   -webkit-background-size: cover;
@@ -9,8 +11,29 @@
 }
 
 .registration-form {
-  position: relative;
-  /* right: 200px;
-  top: 50px; */
-  min-width: 300px
+  min-width: 350px;
+  position: fixed;
+  top: 10%;
+  left: 60%;
 }
+
+@media only screen and (max-width: 600px) {
+  .registration-form {
+    min-width: 330px;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+  }
+}
+
+
+@media screen and (max-width: 992px) {
+  .registration-form {
+    min-width: 330px;
+    position: fixed;
+    top: 10%;
+    left: 40%;
+  }
+}
+
+
