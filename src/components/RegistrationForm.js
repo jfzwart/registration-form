@@ -2,36 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
-
-// const validate = values => {
-//     const errors = {}; //sets errors as an empty object
-
-//     if (!values.initials) {
-//         errors.initials = 'Verplicht';
-//     } // return an error if initials are empty
-
-//     if (!values.lastname) {
-//         errors.lastname = 'Verplicht';
-//     }
-
-//     if (!values.zip) {
-//         errors.zip = 'Verplicht';
-//     } else if ( !/^\d{4} ?[a-z]{2}$/i.test(values.zip)) {
-//         errors.zip = 'Ongeldige postcode'
-//     }
-
-//     if (!values.number) {
-//         errors.number = 'Verplicht';
-//     } // type number is already required through the form
-
-//     if (!values.email) {
-//         errors.email = 'Verplicht';
-//     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-//         errors.email = 'Ongeldig email adres'
-//     }
-
-//     return errors;
-// };
+import '../App.css';
 
 //TODO: Create load indicator on button -> Done
 //TODO: Add Background, Logo, META Desc
@@ -113,23 +84,19 @@ const RegistrationForm = () => {
     }
 
     return (
-        <div className="d-flex flex-column justify-content-center col-3">
+        <div className="registration-form d-flex flex-column float-right col-3 m-3">
+            <h1>Schrijf je in</h1>
             <form onSubmit={formik.handleSubmit} >
-                {/* <label htmlFor="insertion">Voorletters</label> */}
                 <input
-                id="initials"
+                className="form-control mt-3"
                 name="initials"
                 type="text"
                 placeholder="Voorletters"
                 {...formik.getFieldProps('initials')} 
-                // onChange={formik.handleChange}
-                // onBlur={formik.handleBlur}
-                // value={formik.values.initials}
                 />
-                {formik.touched.initials && formik.errors.initials ? (<div className="form-text text-muted">{formik.errors.initials}</div>) : null }
-
+                {formik.touched.initials && formik.errors.initials ? (<div>{formik.errors.initials}</div>) : null }
                 <input
-                id="insertion"
+                className="form-control mt-3"
                 name="insertion"
                 type="text"
                 placeholder="Tussenvoegsel"
@@ -137,7 +104,7 @@ const RegistrationForm = () => {
                 />
 
                 <input
-                id="lastname"
+                className="form-control mt-3"
                 name="lastname"
                 type="text"
                 placeholder="Achternaam"
@@ -146,6 +113,7 @@ const RegistrationForm = () => {
                 {formik.touched.lastname && formik.errors.lastname ? (<div>{formik.errors.lastname}</div>) : (null)}
 
                 <input
+                className="form-control mt-3"
                 id="zip"
                 name="zip"
                 type="text"
@@ -153,10 +121,8 @@ const RegistrationForm = () => {
                 {...formik.getFieldProps('zip')}
                 />
                 {formik.touched.zip && formik.errors.zip ? (<div>{formik.errors.zip}</div>) : (null)}
-
-
                 <input
-                id="number"
+                className="form-control mt-3"
                 name="number"
                 type="number"
                 placeholder="Huisnummer"
@@ -164,41 +130,37 @@ const RegistrationForm = () => {
                 onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}
                 />
                 {formik.touched.number && formik.errors.number ? (<div>{formik.errors.number}</div>) : (null)}
-
                 <input
-                id="streetname"
+                className="form-control mt-3"
                 name="streetname"
                 type="text"
                 placeholder="Straatnaam"
                 {...formik.getFieldProps('streetname')}
                 value={formik.values.street || street}
                 />
-
                 <input
-                id="city"
+                className="form-control mt-3"
                 name="city"
                 type="text"
                 placeholder="Stad"
                 {...formik.getFieldProps('city')}
                 value={formik.values.city || city} 
                 />
-
                 <input
-                id="email"
+                className="form-control mt-3"
                 name="email"
                 type="text"
                 placeholder="Email"
                 {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email && formik.errors.email ? (<div>{formik.errors.email}</div>) : (null)}
-
                 { isLoading ? (
-                <button className="btn btn-primary" type="submit" disabled>
+                <button className="btn btn-primary mt-3" type="submit" disabled>
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Laden...
                 </button>
                 ) : (
-                <button className="btn btn-primary" type="submit">Versturen</button>) }
+                <button className="btn btn-primary mt-3" type="submit">Versturen</button>) }
             </form>
         </div>
     );

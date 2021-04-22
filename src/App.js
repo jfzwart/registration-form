@@ -4,7 +4,7 @@ import RegistrationForm from './components/RegistrationForm'
 const App = () => {
   return (
     <div className="App">
-      <RegistrationForm />
+      <RegistrationForm className="container"/>
     </div>
   );
 }

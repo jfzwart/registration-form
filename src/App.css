@@ -1,3 +1,16 @@
 .App {
   text-align: center;
+  height: 100vh;
+  background: url('./images/background.png') no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.registration-form {
+  position: relative;
+  /* right: 200px;
+  top: 50px; */
+  min-width: 300px
 }
