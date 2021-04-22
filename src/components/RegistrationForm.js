@@ -70,7 +70,7 @@ const RegistrationForm = () => {
                 }
             })
             setLoading(false)
-            NotificationManager.success('You hebt je ingeschreven!', 'Succes!!', 2000);
+            NotificationManager.success('Je hebt je ingeschreven!', 'Succes!!', 2000);
             formik.resetForm()
             setCity('')
             setStreet('')
