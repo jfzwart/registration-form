@@ -158,7 +158,7 @@ const RegistrationForm = () => {
                 Laden...
                 </button>
                 ) : (
-                <button className="btn btn-primary mt-3" type="submit">Versturen</button>) }
+                <button className="btn btn-primary mt-3" type="submit">Verzenden</button>) }
             </form>
         </div>
     );
