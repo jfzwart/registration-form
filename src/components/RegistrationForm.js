@@ -1,40 +1,49 @@
-import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import axios from 'axios';
+import * as Yup from 'yup';
 
-const validate = values => {
-    const errors = {}; //sets errors as an empty object
+// const validate = values => {
+//     const errors = {}; //sets errors as an empty object
 
-    if (!values.initials) {
-        errors.initials = 'Verplicht';
-    } // return an error if initials are empty
+//     if (!values.initials) {
+//         errors.initials = 'Verplicht';
+//     } // return an error if initials are empty
 
-    if (!values.lastname) {
-        errors.lastname = 'Verplicht';
-    }
+//     if (!values.lastname) {
+//         errors.lastname = 'Verplicht';
+//     }
 
-    if (!values.zip) {
-        errors.zip = 'Verplicht';
-    } else if ( !/^\d{4} ?[a-z]{2}$/i.test(values.zip)) {
-        errors.zip = 'Ongeldige postcode'
-    }
+//     if (!values.zip) {
+//         errors.zip = 'Verplicht';
+//     } else if ( !/^\d{4} ?[a-z]{2}$/i.test(values.zip)) {
+//         errors.zip = 'Ongeldige postcode'
+//     }
 
-    if (!values.number) {
-        errors.number = 'Verplicht';
-    } // type number is already required through the form
+//     if (!values.number) {
+//         errors.number = 'Verplicht';
+//     } // type number is already required through the form
 
-    if (!values.email) {
-        errors.email = 'Verplicht';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Ongeldig email adres'
-    }
+//     if (!values.email) {
+//         errors.email = 'Verplicht';
+//     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+//         errors.email = 'Ongeldig email adres'
+//     }
 
-    return errors;
-};
+//     return errors;
+// };
+
+//TODO: Create load indicator on button -> Done
+//TODO: Add Background, Logo, META Desc
+//TODO: Style error messages
+//TODO: Add success notification
+//TODO: Code cleanup
 
 const RegistrationForm = () => {
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
+    const [isLoading, setLoading] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
     
     const formik = useFormik({
         initialValues: {
@@ -47,12 +56,24 @@ const RegistrationForm = () => {
             number: '',
             email: ''
         },
-        validate,
+        validationSchema: Yup.object({
+            initials: Yup.string()
+                .required('Verplicht'),
+            lastname: Yup.string()
+                .required('Verplicht'),
+            zip: Yup.string()
+                .required('Verplicht')
+                .matches(/^\d{4} ?[a-z]{2}$/i, {message: 'Ongeldige postcode'}),
+            email: Yup.string()
+                .required('Verplicht')
+                .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, {message: 'Ongeldig e-mailadres'}),
+        }),
         onSubmit: values => {
-        alert(JSON.stringify(values, null, 2));
+            postDetails(values, street, city)
         },
     });
 
+    // GET street and address after entering ZIP and Number
     const getAddress = async (zip, number) => {
         try {
             const response = await axios.get(`https://postcode.tech/api/v1/postcode?postcode=${zip}&number=${number}`, {
@@ -60,13 +81,36 @@ const RegistrationForm = () => {
                     'Authorization': 'Bearer 2a79baa3-f990-401c-b842-18a5ce6312a9'
                 }
             })
-            console.log(response.data)
+            // console.log(response.data)
             setStreet(response.data.street)
             setCity(response.data.city)
         } catch (error) { 
             console.log("error", error)
         }
     };
+
+    const postDetails = async ( values, street, city ) => {
+        try {
+            setLoading(true)
+            const data = await axios.post(`https://136165c056a1703a60ddb0f1922c01bc.m.pipedream.net/`, {
+                data: {
+                    initials: values.initials,
+                    insertion: values.insertion,
+                    lastname: values.lastname,
+                    zip: values.zip,
+                    streetname: street,
+                    city: city,
+                    number: values.number,
+                    email: values.email
+                }
+            })
+            setLoading(false)
+            console.log(data)
+            // if (data.request.status == 200) isOpen(true)
+        } catch(error) {
+            console.log("error", error);
+        }
+    }
 
     return (
         <div className="d-flex flex-column justify-content-center col-3">
@@ -148,7 +192,13 @@ const RegistrationForm = () => {
                 />
                 {formik.touched.email && formik.errors.email ? (<div>{formik.errors.email}</div>) : (null)}
 
-                <button type="submit">Versturen</button>
+                { isLoading ? (
+                <button className="btn btn-primary" type="submit" disabled>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Laden...
+                </button>
+                ) : (
+                <button className="btn btn-primary" type="submit">Versturen</button>) }
             </form>
         </div>
     );
