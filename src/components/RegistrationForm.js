@@ -70,7 +70,10 @@ const RegistrationForm = () => {
                 }
             })
             setLoading(false)
-            NotificationManager.success('You hebt je inteschreven!', 'Succes!!', 2000);
+            NotificationManager.success('You hebt je ingeschreven!', 'Succes!!', 2000);
+            formik.resetForm()
+            setCity('')
+            setStreet('')
             return data // creates an in-browser notification on succes
         } catch(error) {
             console.log("error", error);
@@ -131,7 +134,7 @@ const RegistrationForm = () => {
                 type="text"
                 placeholder="Straatnaam"
                 {...formik.getFieldProps('streetname')}
-                value={formik.values.street || street}
+                value={formik.values.streetname || street}
                 />
 
                 <input
