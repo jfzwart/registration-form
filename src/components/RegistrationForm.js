@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const validate = values => {
     const errors = {}; //sets errors as an empty object
@@ -32,6 +33,9 @@ const validate = values => {
 };
 
 const RegistrationForm = () => {
+    const [street, setStreet] = useState('');
+    const [city, setCity] = useState('');
+    
     const formik = useFormik({
         initialValues: {
             initials: '',
@@ -49,97 +53,98 @@ const RegistrationForm = () => {
         },
     });
 
+    const getAddress = async (zip, number) => {
+        try {
+            const response = await axios.get(`https://postcode.tech/api/v1/postcode?postcode=${zip}&number=${number}`, {
+                headers: {
+                    'Authorization': 'Bearer 2a79baa3-f990-401c-b842-18a5ce6312a9'
+                }
+            })
+            console.log(response.data)
+            setStreet(response.data.street)
+            setCity(response.data.city)
+        } catch (error) { 
+            console.log("error", error)
+        }
+    };
+
     return (
-        <div className="d-flex flex-column justify-content-center col-6">
+        <div className="d-flex flex-column justify-content-center col-3">
             <form onSubmit={formik.handleSubmit} >
-                <label htmlFor="insertion">Voorletters</label>
+                {/* <label htmlFor="insertion">Voorletters</label> */}
                 <input
                 id="initials"
                 name="initials"
                 type="text"
                 placeholder="Voorletters"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.initials}
+                {...formik.getFieldProps('initials')} 
+                // onChange={formik.handleChange}
+                // onBlur={formik.handleBlur}
+                // value={formik.values.initials}
                 />
                 {formik.touched.initials && formik.errors.initials ? (<div className="form-text text-muted">{formik.errors.initials}</div>) : null }
 
-                <label htmlFor="insertion">Tussenvoegsel</label>
                 <input
                 id="insertion"
                 name="insertion"
                 type="text"
                 placeholder="Tussenvoegsel"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.insertion}
+                {...formik.getFieldProps('insertion')}
                 />
 
-                <label htmlFor="lastname">Achternaam</label>
                 <input
                 id="lastname"
                 name="lastname"
                 type="text"
                 placeholder="Achternaam"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastname}
+                {...formik.getFieldProps('lastname')}
                 />
                 {formik.touched.lastname && formik.errors.lastname ? (<div>{formik.errors.lastname}</div>) : (null)}
 
-                <label htmlFor="zip">Postcode</label>
                 <input
                 id="zip"
                 name="zip"
                 type="text"
                 placeholder="Postcode"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.zip}
+                {...formik.getFieldProps('zip')}
                 />
                 {formik.touched.zip && formik.errors.zip ? (<div>{formik.errors.zip}</div>) : (null)}
 
-                <label htmlFor="number">Huisnummer</label>
+
                 <input
                 id="number"
                 name="number"
                 type="number"
                 placeholder="Huisnummer"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.number}
+                {...formik.getFieldProps('number')}
+                onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}
                 />
                 {formik.touched.number && formik.errors.number ? (<div>{formik.errors.number}</div>) : (null)}
 
-                <label htmlFor="streetname">Straatnaam</label>
                 <input
                 id="streetname"
                 name="streetname"
                 type="text"
                 placeholder="Straatnaam"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.streetname}
+                {...formik.getFieldProps('streetname')}
+                value={formik.values.street || street}
                 />
-                <label htmlFor="city">Stad</label>
+
                 <input
                 id="city"
                 name="city"
                 type="text"
                 placeholder="Stad"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.city}
+                {...formik.getFieldProps('city')}
+                value={formik.values.city || city} 
                 />
-                <label htmlFor="email">Email</label>
+
                 <input
                 id="email"
                 name="email"
                 type="text"
                 placeholder="Email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+                {...formik.getFieldProps('email')}
                 />
                 {formik.touched.email && formik.errors.email ? (<div>{formik.errors.email}</div>) : (null)}
 
