@@ -10,6 +10,7 @@ const RegistrationForm = () => {
     const [city, setCity] = useState('');
     const [isLoading, setLoading] = useState(false);
     // Create formik Hook:
+    
     const formik = useFormik({
         initialValues: {
             initials: '',
