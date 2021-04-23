@@ -9,9 +9,9 @@ Inleiding
 Om je specialisme en kennis goed te kunnen peilen hebben we een opdracht voor je opgesteld. De richtlijn voor deze case is 4 uur (​kleine uitloop mag)​. Vervolgens gaan wij de case beoordelen. De opdracht hoeft niet af binnen de tijd. Probeer ​zo ver mogelijk​ te komen als je kunt en beoordeel zelf waar je de focus van je uitvoering legt, er is geen fout!
 Je mag je project aanleveren als een github/bitbucket project of als ZIP. Uiteraard netjes als je ons verteld hoe we je project kunnen starten.Succes!
 
-Case: Incentronauten formulier
+Case: Registratie formulier
 
-Nu word je straks aangenomen als Incentronaut en ga je knallen bij de klant. Te gek! wel hebben we nog wat informatie van je nodig. Hiervoor willen we je vragen om een formulier te bouwen waar ook een snufje slimmigheid in zit.
+We willen je vragen om een formulier te bouwen waar ook een snufje slimmigheid in zit.
 
 ● Voorletters (verplicht)
 ● Tussenvoegsel

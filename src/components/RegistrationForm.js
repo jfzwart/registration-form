@@ -82,7 +82,7 @@ const RegistrationForm = () => {
     }
 
     return (
-        <div className="registration-form d-flex flex-column">
+        <div className="registration-form d-flex flex-column mt-5">
             <h1>Schrijf je in</h1>
             <form onSubmit={formik.handleSubmit} >
                 <input
@@ -92,7 +92,7 @@ const RegistrationForm = () => {
                 placeholder="Voorletters"
                 {...formik.getFieldProps('initials')} // replaces Onchange, Onblur and Value
                 /> 
-                {formik.touched.initials && formik.errors.initials ? (<div className="font-weight-bold">{formik.errors.initials}</div>) : null }
+                {formik.touched.initials && formik.errors.initials ? (<div className="font-weight-bold text-danger">{formik.errors.initials}</div>) : null }
                 <input
                 className="form-control mt-3"
                 name="insertion"
@@ -107,7 +107,7 @@ const RegistrationForm = () => {
                 placeholder="Achternaam"
                 {...formik.getFieldProps('lastname')}
                 />
-                {formik.touched.lastname && formik.errors.lastname ? (<div className="font-weight-bold">{formik.errors.lastname}</div>) : (null)}
+                {formik.touched.lastname && formik.errors.lastname ? (<div className="font-weight-bold text-danger">{formik.errors.lastname}</div>) : (null)}
 
                 <input
                 className="form-control mt-3"
@@ -116,7 +116,7 @@ const RegistrationForm = () => {
                 placeholder="Postcode"
                 {...formik.getFieldProps('zip')}
                 />
-                {formik.touched.zip && formik.errors.zip ? (<div className="font-weight-bold">{formik.errors.zip}</div>) : (null)}
+                {formik.touched.zip && formik.errors.zip ? (<div className="font-weight-bold text-danger">{formik.errors.zip}</div>) : (null)}
                 
                 <input
                 className="form-control mt-3"
@@ -126,7 +126,7 @@ const RegistrationForm = () => {
                 {...formik.getFieldProps('number')}
                 onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}
                 />
-                {formik.touched.number && formik.errors.number ? (<div className="font-weight-bold">{formik.errors.number}</div>) : (null)}
+                {formik.touched.number && formik.errors.number ? (<div className="font-weight-bold text-danger">{formik.errors.number}</div>) : (null)}
 
                 <input
                 className="form-control mt-3"
@@ -153,7 +153,7 @@ const RegistrationForm = () => {
                 placeholder="Email"
                 {...formik.getFieldProps('email')}
                 />
-                {formik.touched.email && formik.errors.email ? (<div className="font-weight-bold">{formik.errors.email}</div>) : (null)}
+                {formik.touched.email && formik.errors.email ? (<div className="font-weight-bold text-danger">{formik.errors.email}</div>) : (null)}
 
                 { isLoading ? (
                 <button className="btn btn-primary mt-3" type="submit" disabled>
