@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { NotificationManager } from 'react-notifications';
 import axios from 'axios';
 import * as Yup from 'yup';
@@ -9,35 +9,6 @@ const RegistrationForm = () => {
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
     const [isLoading, setLoading] = useState(false);
-    // Create formik Hook:
-    
-    const formik = useFormik({
-        initialValues: {
-            initials: '',
-            insertion: '',
-            lastname: '',
-            zip: '',
-            streetname: '',
-            city: '',
-            number: '',
-            email: ''
-        },
-        validationSchema: Yup.object({
-            initials: Yup.string()
-                .required('Verplicht veld'),
-            lastname: Yup.string()
-                .required('Verplicht veld'),
-            zip: Yup.string()
-                .required('Verplicht veld')
-                .matches(/^\d{4} ?[a-z]{2}$/i, {message: 'Ongeldige postcode'}),
-            email: Yup.string()
-                .required('Verplicht veld')
-                .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, {message: 'Ongeldig e-mailadres'}),
-        }),
-        onSubmit: values => {
-            postDetails(values, street, city)
-        },
-    });
 
     // GET street and address after entering ZIP and Number (postcode.tech)
     const getAddress = async (zip, number) => {
@@ -72,7 +43,6 @@ const RegistrationForm = () => {
             })
             setLoading(false)
             NotificationManager.success('Je hebt je ingeschreven!', 'Succes!!', 2000);
-            formik.resetForm()
             setCity('')
             setStreet('')
             return data // creates an in-browser notification on succes
@@ -83,7 +53,35 @@ const RegistrationForm = () => {
     }
 
     return (
-        <div className="registration-form d-flex flex-column mt-5">
+        <Formik 
+        initialValues={{
+            initials: '',
+            insertion: '',
+            lastname: '',
+            zip: '',
+            streetname: '',
+            city: '',
+            number: '',
+            email: ''
+        }}
+        validationSchema={Yup.object({
+            initials: Yup.string()
+                .required('Verplicht veld'),
+            lastname: Yup.string()
+                .required('Verplicht veld'),
+            zip: Yup.string()
+                .required('Verplicht veld')
+                .matches(/^\d{4} ?[a-z]{2}$/i, {message: 'Ongeldige postcode'}),
+            email: Yup.string()
+                .required('Verplicht veld')
+                .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, {message: 'Ongeldig e-mailadres'}),
+        })}
+        onSubmit={values => {
+            postDetails(values, street, city)}
+        }
+        >
+        {formik => (
+            <div className="registration-form d-flex flex-column mt-5">
             <h1>Schrijf je in</h1>
             <form onSubmit={formik.handleSubmit} >
                 <input
@@ -164,8 +162,11 @@ const RegistrationForm = () => {
                 ) : (
                 <button className="btn btn-primary mt-3" type="submit">Verzenden</button>) }
             </form>
-        </div>
+            </div>
+        )}
+        
+        </Formik>
     );
-};
+}
 
-export default RegistrationForm;
+export default RegistrationForm
