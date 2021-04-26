@@ -43,8 +43,8 @@ const RegistrationForm = () => {
             })
             setLoading(false)
             NotificationManager.success('Je hebt je ingeschreven!', 'Succes!!', 2000);
-            setCity('')
-            setStreet('')
+            // setCity('')
+            // setStreet('')
             return data // creates an in-browser notification on succes
         } catch(error) {
             console.log("error", error);
@@ -80,93 +80,46 @@ const RegistrationForm = () => {
             postDetails(values, street, city)}
         }
         >
-        {formik => (
-            <div className="registration-form d-flex flex-column mt-5">
-            <h1>Schrijf je in</h1>
-            <form onSubmit={formik.handleSubmit} >
-                <input
-                className="form-control mt-3"
-                name="initials"
-                type="text"
-                placeholder="Voorletters"
-                {...formik.getFieldProps('initials')} // replaces Onchange, Onblur and Value
-                /> 
-                {formik.touched.initials && formik.errors.initials ? (<div className="font-weight-bold text-danger">{formik.errors.initials}</div>) : null }
-                <input
-                className="form-control mt-3"
-                name="insertion"
-                type="text"
-                placeholder="Tussenvoegsel"
-                {...formik.getFieldProps('insertion')}
-                />
-                <input
-                className="form-control mt-3"
-                name="lastname"
-                type="text"
-                placeholder="Achternaam"
-                {...formik.getFieldProps('lastname')}
-                />
-                {formik.touched.lastname && formik.errors.lastname ? (<div className="font-weight-bold text-danger">{formik.errors.lastname}</div>) : (null)}
 
-                <input
-                className="form-control mt-3"
-                name="zip"
-                type="text"
-                placeholder="Postcode"
-                {...formik.getFieldProps('zip')}
-                />
-                {formik.touched.zip && formik.errors.zip ? (<div className="font-weight-bold text-danger">{formik.errors.zip}</div>) : (null)}
-                
-                <input
-                className="form-control mt-3"
-                name="number"
-                type="number"
-                placeholder="Huisnummer"
-                {...formik.getFieldProps('number')}
-                onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}
-                />
-                {formik.touched.number && formik.errors.number ? (<div className="font-weight-bold text-danger">{formik.errors.number}</div>) : (null)}
+            {(formik) => (
+                <div className="registration-form d-flex flex-column mt-5">
+                <h1>Schrijf je in</h1>
+                <Form>
+                    <Field name="initials" type="text" placeholder="Initialen" className="form-control mt-3"/>
+                    <ErrorMessage name="initials" className="font-weight-bold text-danger"/>
 
-                <input
-                className="form-control mt-3"
-                name="streetname"
-                type="text"
-                placeholder="Straatnaam"
-                {...formik.getFieldProps('streetname')}
-                value={formik.values.streetname || street}
-                />
+                    <Field name="insertion" type="text" placeholder="Tussenvoegsel" className="form-control mt-3"/>
 
-                <input
-                className="form-control mt-3"
-                name="city"
-                type="text"
-                placeholder="Stad"
-                {...formik.getFieldProps('city')}
-                value={formik.values.city || city} 
-                />
+                    <Field name="lastname" type="text" placeholder="Achternaam" className="form-control mt-3"/>
+                    <ErrorMessage name="lastname" className="font-weight-bold text-danger"/>
 
-                <input
-                className="form-control mt-3"
-                name="email"
-                type="text"
-                placeholder="Email"
-                {...formik.getFieldProps('email')}
-                />
-                {formik.touched.email && formik.errors.email ? (<div className="font-weight-bold text-danger">{formik.errors.email}</div>) : (null)}
+                    <Field name="zip" type="text" placeholder="Postcode" className="form-control mt-3" />
+                    <ErrorMessage name="zip" className="font-weight-bold text-danger"/>
 
-                { isLoading ? (
-                <button className="btn btn-primary mt-3" type="submit" disabled>
-                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Laden...
-                </button>
-                ) : (
-                <button className="btn btn-primary mt-3" type="submit">Verzenden</button>) }
-            </form>
-            </div>
-        )}
-        
+                    <Field name="number" type="number" placeholder="Huisnummer" className="form-control mt-3" onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}/>
+                    <ErrorMessage name="number" className="font-weight-bold text-danger"/>
+
+                    <Field name="streetname" type="text" placeholder="Straatnaam" className="form-control mt-3" value={formik.values.streetname || street}/>
+                    <ErrorMessage name="zip" className="font-weight-bold text-danger"/>
+
+                    <Field name="city" type="text" placeholder="Stad" className="form-control mt-3" value={formik.values.city || city}/>
+                    <ErrorMessage name="city" className="font-weight-bold text-danger"/>
+
+                    <Field name="email" type="text" placeholder="Email" className="form-control mt-3" />
+                    <ErrorMessage name="email" className="font-weight-bold text-danger"/>
+
+                    { isLoading ? (
+                    <button className="btn btn-primary mt-3" type="submit" disabled>
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Laden...
+                    </button>
+                    ) : (
+                    <button className="btn btn-primary mt-3" type="submit">Verzenden</button>) }
+                </Form>
+                </div>
+            )}
         </Formik>
-    );
+    )
 }
 
-export default RegistrationForm
+export default RegistrationForm;
