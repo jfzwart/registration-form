@@ -1,9 +1,9 @@
 .App {
   display: grid;
-  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   text-align: center;
   justify-content: space-around;
   height: 100vh;
+  background: url('./images/background.png') no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -12,7 +12,17 @@
 
 .registration-form {
   min-width: 350px;
+  position: fixed;
+  top: 10%;
+  left: 60%;
 }
 
-
+@media screen and (max-width: 600px) {
+  .registration-form {
+    min-width: 330px;
+    position: fixed;
+    top: 10%;
+    left: 7%;
+  }
+}
 

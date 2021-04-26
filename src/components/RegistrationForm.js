@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Formik, useField, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { NotificationManager } from 'react-notifications';
 import axios from 'axios';
 import * as Yup from 'yup';
+import TextField from './TextField';
+import Button from './Button';
 import '../App.css';
 
 const RegistrationForm = () => {
@@ -43,26 +45,12 @@ const RegistrationForm = () => {
             })
             setLoading(false)
             NotificationManager.success('Je hebt je ingeschreven!', 'Succes!!', 2000);
-            // setCity('')
-            // setStreet('')
-            return data // creates an in-browser notification on succes
+            return data // creates an in-browser notification on success
         } catch(error) {
             console.log("error", error);
             NotificationManager.error('Fout bij de inschrijving!', 'Probeer opnieuw!'); // creates an error notification on failure
         }
     }
-
-    const TextField = ({ ...props }) => {
-        const [field, meta] = useField(props);
-        return (
-            <>
-                <input className="form-control mt-3" {...field} {...props} />
-                {meta.touched && meta.error ? (
-                <div className="font-weight-bold text-danger">{meta.error}</div>
-                ) : null}
-            </>
-            );
-        };
 
     return (
         <Formik 
@@ -87,68 +75,63 @@ const RegistrationForm = () => {
                 email: Yup.string()
                     .required('Verplicht veld')
                     .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, {message: 'Ongeldig e-mailadres'}),
-            })}
-            onSubmit={values => {
-                postDetails(values, street, city)}
-            }
+            })} 
+            onSubmit={ (values, {resetForm}) => {
+                postDetails(values, street, city)
+                resetForm({ values: ''})
+                setCity('')
+                setStreet('')
+            }}
         >
             {(formik) => (
                 <div className="registration-form d-flex flex-column mt-5">
-                <h1>Schrijf je in</h1>
-                <Form>
-                    <TextField
-                        name="initials"
-                        type="text"
-                        placeholder="Initialen"
-                    />
-                    {/* <Field name="initials" type="text" placeholder="Initialen" className="form-control mt-3"/>
-                    <ErrorMessage name="initials" className="font-weight-bold text-danger"/> */}
-                    <TextField
-                        name="insertion"
-                        type="text"
-                        placeholder="Tussenvoegsel"
-                    />
-                    <TextField
-                        name="lastname"
-                        type="text"
-                        placeholder="Achternaam"
-                    />
-                    <TextField
-                        name="zip"
-                        type="text"
-                        placeholder="Postcode"
-                    />
-                    <TextField
-                        name="number"
-                        type="number"
-                        placeholder="Huisnummer"
-                        onBlur={() => { getAddress(formik.values.zip, formik.values.number) }}
-                    />
-                    <TextField
-                        name="streetname"
-                        type="text"
-                        placeholder="Stad"
-                        value={formik.values.streetname || street}
-                    />
-                    <TextField
-                        name="city"
-                        type="text"
-                        placeholder="Stad"
-                        value={formik.values.city || city}
-                    />
-                    <TextField
-                        name="email"
-                        type="text"
-                        placeholder="Email"
-                    />
-                    { isLoading ? (
-                    <button className="btn btn-primary mt-3" type="submit" disabled>
-                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Laden...
-                    </button>
-                    ) : (
-                    <button className="btn btn-primary mt-3" type="submit">Verzenden</button>) }
-                </Form>
+                    <h1>Schrijf je in</h1>
+                    <Form>
+                        <TextField // Uses TextField Component to render field and error
+                            name="initials"
+                            type="text"
+                            placeholder="Initialen"
+                        />
+                        <TextField
+                            name="insertion"
+                            type="text"
+                            placeholder="Tussenvoegsel"
+                        />
+                        <TextField
+                            name="lastname"
+                            type="text"
+                            placeholder="Achternaam"
+                        />
+                        <TextField
+                            name="zip"
+                            type="text"
+                            placeholder="Postcode"
+                        />
+                        <TextField
+                            name="number"
+                            type="number"
+                            placeholder="Huisnummer"
+                            onBlur={() => { getAddress(formik.values.zip, formik.values.number) }} // calls address API 
+                        />
+                        <TextField
+                            name="streetname"
+                            type="text"
+                            placeholder="Straatnaam"
+                            value={formik.values.streetname || street}
+                        />
+                        <TextField
+                            name="city"
+                            type="text"
+                            placeholder="Stad"
+                            value={formik.values.city || city}
+                        />
+                        <TextField
+                            name="email"
+                            type="text"
+                            placeholder="Email"
+                        />
+                        <Button isLoading={isLoading} />
+                    </Form>
                 </div>
             )}
         </Formik>
